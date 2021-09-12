@@ -1,15 +1,21 @@
 def merge_rec(left_arr, right_arr, result = [])
   return result if left_arr.empty? && right_arr.empty?
+
   if right_arr.empty?
     result += left_arr
-    return result
+    result
   elsif left_arr.empty?
     result += right_arr
-    return result
+    result
   else
     is_first_left_smaller_than_right = left_arr[0] < right_arr[0]
     result << (is_first_left_smaller_than_right ? left_arr[0] : right_arr[0])
-    new_left_arr, new_right_arr = is_first_left_smaller_than_right ? [left_arr[1..], right_arr]: [left_arr, right_arr[1..]]
+    new_left_arr, new_right_arr = if is_first_left_smaller_than_right
+                                    [left_arr[1..],
+                                     right_arr]
+                                  else
+                                    [left_arr, right_arr[1..]]
+                                  end
     merge(new_left_arr, new_right_arr, result)
   end
 end
@@ -34,12 +40,9 @@ def merge(left_arr, right_arr)
     end
   end
   merged
-
-
 end
 
 def merge_sort(arr)
-
   return arr if arr.length == 1
 
   sorted_left = merge_sort(arr[0..arr.length / 2 - 1])
@@ -47,6 +50,5 @@ def merge_sort(arr)
   merge(sorted_left, sorted_right)
 end
 
-arr = [9, 8, 5 , 1, 13, 2, 4, 7, 3, 9, 0, 5]
+arr = [9, 8, 5, 1, 13, 2, 4, 7, 3, 9, 0, 5]
 p merge_sort(arr)
-
